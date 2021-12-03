@@ -1,4 +1,7 @@
 import pymysql
+import mylogs
+
+Logger = mylogs.logger #  创建日志对象
 
 
 def connect_db():
@@ -33,7 +36,7 @@ def sqlr(sel, args=None):
         cursor.execute(sel, args)  # 执行sql
     except Exception as e:
         conn.rollback()  # 抛出异常 回滚事物
-        print("事务处理失败：", e)
+        Logger.error("SQL执行出错! %s" % e)
         cursor.close()  # 关闭游标
         conn.close()  # 关闭连接
         return -1
